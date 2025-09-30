@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="animate__animated animate__fadeInDown">Anish Enterprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f8e0e9',
+                        secondary: '#1a1a1a',
+                        accent: '#d4af37',
+                        text: '#333333',
+                        light: '#ffffff',
+                        gray: '#f5f5f5',
+                    },
+                    fontFamily: {
+                        heading: ['Playfair Display', 'serif'],
+                        body: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            background-color: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-pattern {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNob3BwaW5nJTIwc3RvcmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+        }
+        
+        .category-card {
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .cart-modal {
+            transition: all 0.3s ease;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: #d4af37;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #d4af37;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        /* Animation for cart count */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .cart-pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        /* Page transition */
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Smooth fade-in for elements */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-heading font-bold text-secondary">Anish<span class="text-accent">Enterprise</span></a>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="nav-link relative text-secondary font-medium animate__animated animate__fadeInDown" data-page="home">Home</a>
+                <a href="#" class="nav-link relative text-secondary font-medium animate__animated animate__fadeInDown" data-page="products">All Products</a>
+                <a href="#" class="nav-link relative text-secondary font-medium animate__animated animate__fadeInDown" data-page="stationery">Stationery</a>
+                <a href="#" class="nav-link relative text-secondary font-medium animate__animated animate__fadeInDown" data-page="cosmetics">Cosmetics</a>
+                <a href="#" class="nav-link relative text-secondary font-medium animate__animated animate__fadeInDown" data-page="clothing">Clothing</a>
+                <a href="#" class="nav-link relative text-secondary font-medium animate__animated animate__fadeInDown" data-page="gifts">Gifts</a>
+                <a href="#" class="nav-link relative text-secondary font-medium animate__animated animate__fadeInDown" data-page="contact">Contact</a>
+            </nav>
+            
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:block relative">
+                    <i class="fas fa-search text-gray-600 hover:text-accent cursor-pointer"></i>
+                </div>
+                <div class="relative">
+                    <i class="fas fa-shopping-bag text-gray-600 hover:text-accent cursor-pointer" id="cart-icon"></i>
+                    <span class="absolute -top-3 -right-3 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center" id="cart-count">0</span>
+                </div>
+                <div class="md:hidden">
+                    <i class="fas fa-bars text-gray-600 hover:text-accent cursor-pointer" id="mobile-menu-btn"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="hidden bg-white py-4 px-4 shadow-md" id="mobile-menu">
+            <div class="flex flex-col space-y-4">
+                <a href="#" class="text-secondary font-medium animate__animated animate__fadeInDown" data-page="home">Home</a>
+                <a href="#" class="text-secondary font-medium animate__animated animate__fadeInDown" data-page="products">All Products</a>
+                <a href="#" class="text-secondary font-medium animate__animated animate__fadeInDown" data-page="stationery">Stationery</a>
+                <a href="#" class="text-secondary font-medium animate__animated animate__fadeInDown" data-page="cosmetics">Cosmetics</a>
+                <a href="#" class="text-secondary font-medium animate__animated animate__fadeInDown" data-page="clothing">Clothing</a>
+                <a href="#" class="text-secondary font-medium animate__animated animate__fadeInDown" data-page="gifts">Gifts</a>
+                <a href="#" class="text-secondary font-medium animate__animated animate__fadeInDown" data-page="contact">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <!-- Hero Section -->
+            <section class="hero-pattern h-96 flex items-center justify-center text-center text-white">
+                <div class="container mx-auto px-4">
+                    <h1 class="text-4xl md:text-5xl font-heading font-bold mb-4 animate-fade-in">Elevate Your Shopping Experience</h1>
+                    <p class="text-xl mb-8 animate-fade-in delay-100">Discover premium products across all categories</p>
+                    <a href="#" class="bg-accent hover:bg-secondary text-white font-medium py-3 px-8 rounded-full transition duration-300 animate-fade-in delay-200" data-page="products">Shop Now</a>
+                </div>
+            </section>
+
+            <!-- Featured Categories -->
+            <section class="py-16 bg-gray-100">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-heading font-bold text-center mb-12 relative section-title animate-fade-in">Shop By Category</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Stationery -->
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md animate-fade-in delay-100 ">
+                            <div class="h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1531346680769-a1d79b57de5c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8c3RhdGlvbmVyeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Stationery" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-heading font-semibold mb-3 mt-2">Stationery</h3>
+                                <p class="text-gray-600 mb-4">Elegant writing tools and office supplies</p>
+                                <a href="#" class="text-accent font-medium hover:text-secondary transition duration-300 inline-flex items-center" data-page="stationery">
+                                    Explore Collection <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Cosmetics -->
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md animate-fade-in delay-200">
+                            <div class="h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29zbWV0aWNzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=80" alt="Cosmetics" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-heading font-semibold mb-3">Cosmetics</h3>
+                                <p class="text-gray-600 mb-4">Luxury beauty and skincare products</p>
+                                <a href="#" class="text-accent font-medium hover:text-secondary transition duration-300 inline-flex items-center" data-page="cosmetics">
+                                    Explore Collection <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Clothing -->
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md animate-fade-in delay-300">
+                            <div class="h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZmFzaGlvbiUyMGNsb3RoaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=80" alt="Clothing" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-heading font-semibold mb-3">Clothing</h3>
+                                <p class="text-gray-600 mb-4">Trendy and elegant fashion for women</p>
+                                <a href="#" class="text-accent font-medium hover:text-secondary transition duration-300 inline-flex items-center" data-page="clothing">
+                                    Explore Collection <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Gifts -->
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md animate-fade-in delay-400">
+                            <div class="h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1519897831810-a9a01aceccd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGdpZnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80" alt="Gifts" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-heading font-semibold mb-3">Gift Articles</h3>
+                                <p class="text-gray-600 mb-4">Thoughtful presents for every occasion</p>
+                                <a href="#" class="text-accent font-medium hover:text-secondary transition duration-300 inline-flex items-center" data-page="gifts">
+                                    Explore Collection <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Products -->
+            <section class="py-16">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-heading font-bold text-center mb-12 relative section-title">Featured Products</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Product 1 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-md">
+                            <div class="h-56 overflow-hidden">
+                                <img src="book.webp">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-semibold">Premium Notebook</h3>
+                                    <span class="text-accent font-bold">₹ 30.00</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Leather-bound writing journal</p>
+                                <button class="add-to-cart w-full bg-secondary text-white py-2 rounded hover:bg-accent transition duration-300" data-id="1" data-name="Premium Notebook" data-price="24.99" data-img="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Ym9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80">Add to Cart</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-md">
+                            <div class="h-56 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29zbWV0aWNzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=80" alt="Product" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-semibold">Luxury Lipstick</h3>
+                                    <span class="text-accent font-bold">₹ 199.00</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Long-lasting matte finish</p>
+                                <button class="add-to-cart w-full bg-secondary text-white py-2 rounded hover:bg-accent transition duration-300" data-id="2" data-name="Luxury Lipstick" data-price="32.50" data-img="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29zbWV0aWNzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=80">Add to Cart</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-md">
+                            <div class="h-56 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZmFzaGlvbiUyMGNsb3Roc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Product" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-semibold">Silk Scarf</h3>
+                                    <span class="text-accent font-bold">₹ 45.00</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Handcrafted designer scarf</p>
+                                <button class="add-to-cart w-full bg-secondary text-white py-2 rounded hover:bg-accent transition duration-300" data-id="3" data-name="Silk Scarf" data-price="45.00" data-img="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZmFzaGlvbiUyMGNsb3Roc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=80">Add to Cart</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 4 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-md">
+                            <div class="h-56 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNob3BwaW5nJTIwc3RvcmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80" alt="Product" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-semibold">Custom Gift Box</h3>
+                                    <span class="text-accent font-bold">₹ 59.99</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Curated luxury gift collection</p>
+                                <button class="add-to-cart w-full bg-secondary text-white py-2 rounded hover:bg-accent transition duration-300" data-id="4" data-name="Custom Gift Box" data-price="59.99" data-img="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNob3BwaW5nJTIwc3RvcmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Products Page -->
+        <div id="products-page" class="page">
+            <section class="py-12 bg-gray-100 min-h-screen">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-heading font-bold text-center mb-8 pt-3">All Products</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                        <!-- Products will be loaded here dynamically -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Category Pages -->
+        <div id="category-page" class="page">
+            <section class="py-12 bg-gray-100 min-h-screen">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-heading font-bold text-center mb-8 pt-8" id="category-title">Category Products</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8" id="category-products">
+                        <!-- Category products will be loaded here dynamically -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact-page" class="page">
+            <section class="py-16 min-h-screen">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-heading font-bold text-center mb-12 relative section-title pt-8">Contact Us</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <div>
+                            <h3 class="text-2xl font-heading font-semibold mb-6">Get In Touch</h3>
+                            
+                            <div class="flex items-start mb-6">
+                                <div class="bg-primary w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-accent"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Our Location</h4>
+                                    <p class="text-gray-600">Lal Bag Chowk Rane Nagar </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-6">
+                                <div class="bg-primary w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone text-accent"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Phone Number</h4>
+                                    <p class="text-gray-600">+91 7972832719</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-6">
+                                <div class="bg-primary w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-accent"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Email Address</h4>
+                                    <p class="text-gray-600">manishapatel@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-2xl font-heading font-semibold mb-6">Send Us a Message</h3>
+                            
+                            <form>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 mb-2" for="name">Your Name</label>
+                                    <input type="text" id="name" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-accent">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 mb-2" for="email">Email Address</label>
+                                    <input type="email" id="email" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-accent">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 mb-2" for="subject">Subject</label>
+                                    <input type="text" id="subject" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-accent">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 mb-2" for="message">Your Message</label>
+                                    <textarea id="message" rows="5" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="bg-accent hover:bg-secondary text-white font-medium py-2 px-6 rounded transition duration-300">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-heading font-bold mb-4">Anish<span class="text-accent">Enterprise</span></h3>
+                    <p class="text-gray-400">Providing premium products and exceptional shopping experience since 2005.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300" data-page="home">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300" data-page="products">Products</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300" data-page="contact">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300" data-page="stationery">Stationery</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300" data-page="cosmetics">Cosmetics</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300" data-page="clothing">Clothing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300" data-page="gifts">Gift Articles</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Address</h4>
+                    <p class="text-gray-400 mb-4">Lal Bagh Chowk , Chetana Nagar, Rane Nagar, Nashik, Maharashtra 422009</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l focus:outline-none">
+                        <button type="submit" class="bg-accent hover:bg-primary text-white px-4 py-2 rounded-r transition duration-300">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Anish Enterprise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end opacity-0 pointer-events-none transition-opacity duration-300" id="cart-modal">
+        <div class="cart-modal bg-white w-full max-w-md overflow-y-auto transform translate-x-full transition-transform duration-300">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-heading font-semibold">Your Shopping Cart</h3>
+                    <button class="text-gray-500 hover:text-secondary" id="close-cart">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6 space-y-6" id="cart-items">
+                <!-- Cart items will be added here dynamically -->
+                <p class="text-center text-gray-500" id="empty-cart-message">Your cart is empty</p>
+            </div>
+            
+            <div class="p-6 border-t">
+                <div class="flex justify-between mb-6">
+                    <span class="font-semibold">Total:</span>
+                    <span class="font-bold text-accent" id="cart-total">₹ 0.00</span>
+                </div>
+                
+                <button class="w-full bg-accent hover:bg-secondary text-white py-3 rounded font-medium transition duration-300">Proceed to Checkout</button>
+            </div>
+            </div>
+    </div>
+
+    <script src="Script.js"></script>
+</body>
+</html>
